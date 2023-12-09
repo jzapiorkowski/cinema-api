@@ -1,19 +1,20 @@
 package com.cinema.cinema.seat.models;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 
 @Entity
 @Data
-public class Movie {
+@Table(name = "seats")
+public class Seat {
     @Id
-    @GeneratedValue()
-    @Column(name = "movie_id")
-    private int id;
+    @GeneratedValue
+    @Column(name = "seat_id")
+    private Integer id;
 
     @Column
-    private int column;
+    private Integer row;
+
+    @Column(name = "seat_number")
+    private Integer seatNumber;
 }
