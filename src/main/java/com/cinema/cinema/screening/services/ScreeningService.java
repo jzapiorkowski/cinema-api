@@ -6,6 +6,7 @@ import com.cinema.cinema.screening.repository.ScreeningRepository;
 import com.cinema.cinema.screening.models.Screening;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -20,11 +21,11 @@ public class ScreeningService {
 
     public List<ScreeningOutputDto> getAllScreenings() {
         List<Screening> screenings = screeningRepository.findAll();
+        return screeningMapper.screeningsToScreeningOutputDtos(screenings);
+    }
 
-//        if (screenings.isEmpty()) {
-//            throw new NoScreeningsException("No screenings found");
-//        }
-
+    public List<ScreeningOutputDto> getScreeningsByDate(LocalDate date) {
+        List<Screening> screenings = screeningRepository.findAllScreeningsByDate(date);
         return screeningMapper.screeningsToScreeningOutputDtos(screenings);
     }
 }

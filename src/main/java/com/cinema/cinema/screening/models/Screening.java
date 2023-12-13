@@ -4,8 +4,8 @@ import com.cinema.cinema.movie.models.Movie;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Date;
 
 @Data
 @Entity
@@ -18,7 +18,7 @@ public class Screening {
 
     @Column
     @Temporal(TemporalType.DATE)
-    private Date date;
+    private LocalDate date;
 
     @Column(name = "start_hour")
     @Temporal(TemporalType.TIME)

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cinema app</title>
+</head>
+<body>
+    <h1>Screenings</h1>
+
+    <form th:action="@{/screenings}" method="get">
+        <label for="date">Filter by Date:</label>
+        <input type="date" id="date" name="date" placeholder="YYYY-MM-DD"/>
+        <button type="submit">Filter</button>
+    </form>
+
+
+    <table>
+        <tr>
+            <th>Movie Title</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Movie Length</th>
+        </tr>
+
+        <tr th:each="screening : ${screenings}">
+            <td th:text="${screening.movie.title}"></td>
+            <td th:text="${screening.date}"></td>
+            <td th:text="${screening.startHour}"></td>
+            <td th:text="${screening.movie.minutesLength} + ' minutes'" ></td>
+        </tr>
+    </table>
+</body>
+</html>
