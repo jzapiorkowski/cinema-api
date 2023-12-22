@@ -5,6 +5,7 @@ import com.cinema.cinema.movie.enums.MovieGenre;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.time.LocalDate;
 import java.util.Set;
 
 @Entity
@@ -22,6 +23,13 @@ public class Movie {
     @Column
     @Enumerated(EnumType.STRING)
     private MovieGenre genre;
+
+    @Column
+    private String director;
+
+    @Column(name = "release_date")
+    @Temporal(TemporalType.DATE)
+    private LocalDate releaseDate;
 
     @Column(name = "minutes_length")
     private Integer minutesLength;

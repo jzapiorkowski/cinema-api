@@ -1,6 +1,7 @@
 package com.cinema.cinema.movie.services;
 
 import com.cinema.cinema.movie.dto.MovieOutputDto;
+import com.cinema.cinema.movie.exceptions.MovieNotFoundException;
 import com.cinema.cinema.movie.mappers.MovieMapper;
 import com.cinema.cinema.movie.models.Movie;
 import com.cinema.cinema.movie.repository.MovieRepository;
@@ -23,5 +24,11 @@ public class MovieService {
         List<Movie> movies = movieRepository.findAll();
 
         return movieMapper.moviesToMovieOutputDtos(movies);
+    }
+
+    public MovieOutputDto getMovieDetails(Integer id) {
+        Movie movie = movieRepository.findById(id).orElseThrow(() -> new MovieNotFoundException(id));
+
+        return movieMapper.movieToMovieOutputDto(movie);
     }
 }

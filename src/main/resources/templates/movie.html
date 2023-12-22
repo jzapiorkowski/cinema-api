@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cinema app</title>
+</head>
+<body>
+    <h1>Movie details</h1>
+
+    <a href="/movies">To movies list</a>
+
+    <div>
+        <h4>Movie Title</h4>
+        <p th:text="${movie.title}"></p>
+
+        <h4>Length</h4>
+        <p th:text="${movie.length} + ' minutes'"></p>
+
+        <h4>Director</h4>
+        <p th:text="${movie.director}"></p>
+
+        <h4>Genre</h4>
+        <p th:text="${movie.genre}"></p>
+
+        <h4>Release date</h4>
+        <p th:text="${movie.releaseDate}"></p>
+
+        <h4>Actors</h4>
+        <ul>
+            <li th:each="actor : ${movie.actors}">
+                <span th:text="${actor.name}"></span>
+            </li>
+        </ul>
+    </div>
+</body>
+</html>

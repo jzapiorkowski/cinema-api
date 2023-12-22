@@ -7,6 +7,8 @@
 <body>
     <h1>Screenings</h1>
 
+    <a href="/">To homepage</a>
+
     <form th:action="@{/screenings}" method="get">
         <label for="date">Filter by Date:</label>
         <input type="date" id="date" name="date" placeholder="YYYY-MM-DD"/>
@@ -14,7 +16,7 @@
     </form>
 
 
-    <table>
+    <table border="1">
         <tr>
             <th>Movie Title</th>
             <th>Date</th>

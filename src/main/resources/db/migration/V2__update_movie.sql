@@ -1,0 +1,3 @@
+ALTER TABLE movies
+ADD COLUMN director VARCHAR(255),
+ADD COLUMN release_date DATE;
