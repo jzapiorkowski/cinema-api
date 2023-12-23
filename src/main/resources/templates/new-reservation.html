@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="EN">
+<head>
+    <meta charset="UTF-8">
+    <title>Cinema app</title>
+</head>
+<body>
+    <h1>New Reservation</h1>
+    <p>You're creating new reservation for screening with id:</p>
+    <span th:text="${screeningId}"></span>
+
+    <p>You dont have chosen seats yet.</p>
+    <button>
+        <a th:href="@{/seats/choose(screeningId=${screeningId})}">>Click here to choose seats</a>
+    </button>
+</body>
+</html>

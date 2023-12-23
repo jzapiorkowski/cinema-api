@@ -22,13 +22,18 @@
             <th>Date</th>
             <th>Time</th>
             <th>Movie Length</th>
+            <th>Action</th>
         </tr>
-
         <tr th:each="screening : ${screenings}">
             <td th:text="${screening.movie.title}"></td>
             <td th:text="${screening.date}"></td>
             <td th:text="${screening.startHour}"></td>
             <td th:text="${screening.movie.minutesLength} + ' minutes'" ></td>
+            <td>
+                <a th:href="@{/reservations/new(screeningId=${screening.id})}">
+                    <button>Make Reservation</button>
+                </a>
+            </td>
         </tr>
     </table>
 </body>

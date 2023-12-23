@@ -1,11 +1,13 @@
 package com.cinema.cinema.screening.models;
 
 import com.cinema.cinema.movie.models.Movie;
+import com.cinema.cinema.reservation.models.Reservation;
 import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 @Data
 @Entity
@@ -26,4 +28,7 @@ public class Screening {
 
     @ManyToOne
     private Movie movie;
+
+    @OneToMany(mappedBy = "screening")
+    private List<Reservation> reservations;
 }

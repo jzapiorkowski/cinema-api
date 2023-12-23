@@ -1,7 +1,10 @@
 package com.cinema.cinema.seat.models;
 
+import com.cinema.cinema.reservation.models.Reservation;
 import jakarta.persistence.*;
 import lombok.Data;
+
+import java.util.List;
 
 @Entity
 @Data
@@ -17,4 +20,7 @@ public class Seat {
 
     @Column(name = "seat_number")
     private Integer seatNumber;
+
+    @ManyToMany(mappedBy = "seats")
+    private List<Reservation> reservations;
 }
