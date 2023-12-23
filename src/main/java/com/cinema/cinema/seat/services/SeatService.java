@@ -42,4 +42,10 @@ public class SeatService {
     public List<Seat> getSeatEntitiesByIds(List<Integer> seatIds) {
         return seatIds.stream().map(this::getSeatEntityById).toList();
     }
+
+    public boolean checkIfSeatsAreAvailable(Integer screeningId, List<Integer> seatsIds) {
+        List<Integer> availableSeatsIds = getAvailableSeatsForScreening(screeningId).stream().map(SeatOutputDto::getId).toList();
+
+        return availableSeatsIds.containsAll(seatsIds);
+    }
 }

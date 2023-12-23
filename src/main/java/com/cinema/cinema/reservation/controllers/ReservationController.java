@@ -4,6 +4,7 @@ import com.cinema.cinema.reservation.dto.CreateReservationInputDto;
 import com.cinema.cinema.reservation.dto.NewReservationOutputDto;
 import com.cinema.cinema.reservation.models.Reservation;
 import com.cinema.cinema.reservation.services.ReservationService;
+import org.apache.coyote.BadRequestException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +26,7 @@ public class ReservationController {
     }
 
     @PostMapping()
-    public String confirmReservation(CreateReservationInputDto createReservationInputDto) {
+    public String confirmReservation(CreateReservationInputDto createReservationInputDto) throws BadRequestException {
         Reservation reservation = reservationService.createNewReservation(createReservationInputDto);
 
         return "redirect:/reservations/" + reservation.getId();

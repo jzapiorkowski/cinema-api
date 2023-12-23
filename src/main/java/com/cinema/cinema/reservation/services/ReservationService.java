@@ -11,6 +11,7 @@ import com.cinema.cinema.screening.services.ScreeningService;
 import com.cinema.cinema.seat.dto.SeatOutputDto;
 import com.cinema.cinema.seat.models.Seat;
 import com.cinema.cinema.seat.services.SeatService;
+import org.apache.coyote.BadRequestException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -39,7 +40,11 @@ public class ReservationService {
         return newReservation;
     }
 
-    public Reservation createNewReservation(CreateReservationInputDto createReservationInputDto) {
+    public Reservation createNewReservation(CreateReservationInputDto createReservationInputDto) throws BadRequestException {
+        if (!seatService.checkIfSeatsAreAvailable(createReservationInputDto.getScreening(), createReservationInputDto.getSeats())) {
+            throw new BadRequestException();
+        }
+
         Screening screening = screeningService.getScreeningEntityById(createReservationInputDto.getScreening());
         List<Seat> seats = seatService.getSeatEntitiesByIds(createReservationInputDto.getSeats());
 
