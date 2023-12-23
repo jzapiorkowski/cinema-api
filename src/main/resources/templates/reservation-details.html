@@ -5,7 +5,9 @@
     <title>Cinema app</title>
 </head>
 <body>
-    <h1>Reservation details</h1>
+    <h1>Reservation number
+        <span th:text="${reservation.id}"></span>
+    </h1>
 
     <h4>Date</h4>
     <p th:text="${reservation.screening.date}"></p>
