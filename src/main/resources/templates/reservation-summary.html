@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="EN">
 <head>
     <meta charset="UTF-8">
     <title>Cinema app</title>
@@ -7,5 +7,26 @@
 <body>
     <h1>Reservation summary</h1>
 
+    <p>Here's the summary of your reservation for screening of id</p>
+    <span th:text="${screening.id}"></span>
+
+    <h4>Date</h4>
+    <p th:text="${screening.date}"></p>
+    <p th:text="${screening.startHour}"></p>
+
+    <h4>Movie</h4>
+    <p th:text="${screening.movie.title}"></p>
+
+    <h4>Seats</h4>
+    <div th:each="seat : ${seats}">
+        <p th:text="'seat ' + ${seat.id} + ' (row' + ${seat.row} + ', number ' + ${seat.seatNumber} + ')'"></p>
+    </div>
+
+    <h2>Do you want to confirm the reservation?</h2>
+    <form th:action="@{/reservations}" method="post" th:object="${newReservation}">
+        <input type="hidden" name="screening" th:value="${reservationData.screening}">
+        <input type="hidden" name="seats" th:value="${{reservationData.seats}}">
+        <button type="submit">Confirm</button>
+    </form>
 </body>
 </html>

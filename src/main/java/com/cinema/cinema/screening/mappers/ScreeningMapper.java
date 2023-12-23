@@ -8,5 +8,6 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface ScreeningMapper {
+    ScreeningOutputDto screeningToScreeningOutputDto(Screening screening);
     List<ScreeningOutputDto> screeningsToScreeningOutputDtos(List<Screening> screenings);
 }

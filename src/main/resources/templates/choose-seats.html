@@ -10,7 +10,7 @@
 <h2>Select Seats for Screening</h2>
 
 <form th:action="@{/seats/choose}" method="post" th:object="${reservationData}">
-    <input type="hidden" name="screeningId" th:value="${reservationData.screeningId}">
+    <input type="hidden" name="screening" th:value="${reservationData.screening}">
 
     Available seats:
     <div th:each="seat : ${availableSeats}">
