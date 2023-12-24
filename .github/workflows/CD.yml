@@ -26,6 +26,9 @@ jobs:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+        - name: Debug image_tag
+          run: echo "${{ env.image_tag }}"
+
         - name: Build Docker image
           env:
             POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
