@@ -27,4 +27,8 @@ jobs:
           run: docker-compose build app=cinema:${GITHUB_SHA}
 
         - name: Push Docker image
+          env:
+            POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+            POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+            POSTGRES_URL: ${{ secrets.POSTGRES_URL }}
           run: docker-compose push
