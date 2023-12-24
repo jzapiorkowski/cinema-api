@@ -12,6 +12,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
+        image_tag: ${{ secrets.DOCKERHUB_USERNAME }}/cinema:${{ github.sha }}
 
     steps:
         - name: Checkout
@@ -28,7 +29,7 @@ jobs:
             POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
             POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
             POSTGRES_URL: ${{ secrets.POSTGRES_URL }}
-          run: docker-compose build
+          run: docker build -t image_tag
 
         - name: Push Docker image
-          run: docker-compose push
+          run: docker push image_tag
