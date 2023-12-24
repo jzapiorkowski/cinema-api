@@ -12,7 +12,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        image_tag: ${{ secrets.DOCKERHUB_USERNAME }}/cinema:${{ github.sha }}
+        image_tag: ${{ secrets.DOCKERHUB_USERNAME }}/cinema:latest
 
     steps:
         - name: Checkout
