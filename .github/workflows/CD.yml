@@ -31,7 +31,7 @@ jobs:
             POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
             POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
             POSTGRES_URL: ${{ secrets.POSTGRES_URL }}
-          run: docker build -t ${{ env.image-tag }} .
+          run: docker build -t ${{ env.image_tag }} .
 
         - name: Push Docker image
-          run: docker push ${{ env.image-tag }}
+          run: docker push ${{ env.image_tag }}
