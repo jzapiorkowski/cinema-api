@@ -40,6 +40,8 @@ jobs:
           run: docker push ${{ env.image_tag }}
 
   deploy:
+    needs: [release]
+
     runs-on: ${{matrix.os}}
 
     strategy:
@@ -48,4 +50,4 @@ jobs:
 
     steps:
       - name: Trigger deploy webhook
-        run: curl  --request POST ${{ env.DEPLOY_WEBHOOK_URL }}
+        run: curl --request POST '${{ env.DEPLOY_WEBHOOK_URL }}'
