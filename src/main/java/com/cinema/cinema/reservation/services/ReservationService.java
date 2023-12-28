@@ -1,10 +1,6 @@
 package com.cinema.cinema.reservation.services;
 
-import com.cinema.cinema.movie.models.Movie;
-import com.cinema.cinema.reservation.dto.CreateReservationInputDto;
-import com.cinema.cinema.reservation.dto.NewReservationOutputDto;
-import com.cinema.cinema.reservation.dto.ReservationOutputDto;
-import com.cinema.cinema.reservation.dto.ReservationsStatisticsOutputDto;
+import com.cinema.cinema.reservation.dto.*;
 import com.cinema.cinema.reservation.exceptions.ReservationNotFoundException;
 import com.cinema.cinema.reservation.exceptions.UnauthorizedUserException;
 import com.cinema.cinema.reservation.mappers.ReservationMapper;
@@ -22,9 +18,7 @@ import org.apache.coyote.BadRequestException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class ReservationService {
@@ -123,49 +117,5 @@ public class ReservationService {
         }
 
         throw new UnauthorizedUserException();
-    }
-
-    public ReservationsStatisticsOutputDto getReservationsStats() {
-        if (!userService.doesUserHavePermission(new String[]{"ADMIN"})) {
-            throw new UnauthorizedUserException();
-        }
-
-        List<Reservation> reservations = reservationRepository.findAll();
-
-        ReservationsStatisticsOutputDto stats = new ReservationsStatisticsOutputDto();
-
-        stats.setReservedSeats(countSeats(reservations));
-        stats.setNumberOfMovies(countMovies(reservations));
-        stats.setReservationsNumber(reservations.size());
-        return stats;
-    }
-
-    private int countSeats(List<Reservation> reservations) {
-        int totalSeats = 0;
-
-        for (Reservation reservation : reservations) {
-            List<Seat> seats = reservation.getSeats();
-            if (seats != null) {
-                totalSeats += seats.size();
-            }
-        }
-
-        return totalSeats;
-    }
-
-    private int countMovies(List<Reservation> reservations) {
-        Set<Movie> uniqueMovies = new HashSet<>();
-
-        for (Reservation reservation : reservations) {
-            Screening screening = reservation.getScreening();
-            if (screening != null) {
-                Movie movie = screening.getMovie();
-                if (movie != null) {
-                    uniqueMovies.add(movie);
-                }
-            }
-        }
-
-        return uniqueMovies.size();
     }
 }

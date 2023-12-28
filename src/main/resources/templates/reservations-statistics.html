@@ -7,6 +7,17 @@
 <body>
     <h1>Reservations statistics</h1>
 
+    <form th:action="@{/reservations/admin/stats}" method="get">
+        <label for="month">Select Month:</label>
+        <input type="number" id="month" name="month" placeholder="Month (1-12)" min="1" max="12" />
+
+        <label for="day">Select Day:</label>
+        <input type="number" id="day" name="day" placeholder="Day (1-31)" min="1" max="31" />
+
+        <button type="submit">Filter</button>
+    </form>
+
+
     <table border="1">
         <tr>
             <th>Number of reservations</th>

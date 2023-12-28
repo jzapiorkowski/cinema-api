@@ -1,11 +1,9 @@
 package com.cinema.cinema.reservation.controllers;
 
-import com.cinema.cinema.reservation.dto.CreateReservationInputDto;
-import com.cinema.cinema.reservation.dto.NewReservationOutputDto;
-import com.cinema.cinema.reservation.dto.ReservationOutputDto;
-import com.cinema.cinema.reservation.dto.ReservationsStatisticsOutputDto;
+import com.cinema.cinema.reservation.dto.*;
 import com.cinema.cinema.reservation.models.Reservation;
 import com.cinema.cinema.reservation.services.ReservationService;
+import com.cinema.cinema.reservation.services.ReservationsStatisticsService;
 import org.apache.coyote.BadRequestException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,9 +15,11 @@ import java.util.List;
 @RequestMapping("/reservations")
 public class ReservationController {
     private final ReservationService reservationService;
+    private final ReservationsStatisticsService reservationsStatisticsService;
 
-    public ReservationController(ReservationService reservationService) {
+    public ReservationController(ReservationService reservationService, ReservationsStatisticsService reservationsStatisticsService) {
         this.reservationService = reservationService;
+        this.reservationsStatisticsService = reservationsStatisticsService;
     }
 
     @GetMapping("new")
@@ -82,8 +82,13 @@ public class ReservationController {
     }
 
     @GetMapping("/admin/stats")
-    public String getAdminStatistics(Model model) {
-        ReservationsStatisticsOutputDto reservationStats = reservationService.getReservationsStats();
+    public String getAdminStatistics(
+            Model model,
+            @RequestParam(required = false) Integer month,
+            @RequestParam(required = false) Integer day
+    ) {
+        ReservationsStatisticsQueryInputDto reservationsStatisticsQueryInputDto = new ReservationsStatisticsQueryInputDto(month, day);
+        ReservationsStatisticsOutputDto reservationStats = reservationsStatisticsService.getReservationsStats(reservationsStatisticsQueryInputDto);
 
         model.addAttribute("statistics", reservationStats);
         System.out.println(reservationStats);
