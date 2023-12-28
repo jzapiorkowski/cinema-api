@@ -106,4 +106,18 @@ public class ReservationService {
         List<Reservation> reservations = reservationRepository.findAll();
         return reservationMapper.reservationsToReservationOutputDtos(reservations);
     }
+
+    public void deleteReservation(Integer reservationId) {
+        Reservation reservation = reservationRepository.findById(reservationId)
+                .orElseThrow(() -> new ReservationNotFoundException(reservationId));
+
+        if (reservation.getUser().getId().equals(userService.getCurrentUserEntity().getId())
+                || userService.doesUserHavePermission(new String[]{"ADMIN"})
+        ) {
+            reservationRepository.deleteById(reservationId);
+            return;
+        }
+
+        throw new UnauthorizedUserException();
+    }
 }

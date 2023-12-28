@@ -73,4 +73,10 @@ public class ReservationController {
         return "reservations-list";
     }
 
+    @PostMapping("delete/{id}")
+    public String deleteReservation(@PathVariable("id") Integer reservationId) {
+        reservationService.deleteReservation(reservationId);
+
+        return "redirect:/reservations";
+    }
 }

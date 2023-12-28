@@ -24,5 +24,9 @@
     <div th:each="seat : ${reservation.seats}">
         <p th:text="'seat ' + ${seat.id} + ' (row' + ${seat.row} + ', number ' + ${seat.seatNumber} + ')'"></p>
     </div>
+
+    <form th:action="@{/reservations/delete/{id}(id=${reservation.id})}" th:method="delete">
+        <button type="submit">Delete reservation</button>
+    </form>
 </body>
 </html>
