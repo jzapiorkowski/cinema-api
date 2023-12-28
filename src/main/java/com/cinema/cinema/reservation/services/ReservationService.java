@@ -11,6 +11,7 @@ import com.cinema.cinema.screening.services.ScreeningService;
 import com.cinema.cinema.seat.dto.SeatOutputDto;
 import com.cinema.cinema.seat.models.Seat;
 import com.cinema.cinema.seat.services.SeatService;
+import com.cinema.cinema.user.services.UserService;
 import org.apache.coyote.BadRequestException;
 import org.springframework.stereotype.Service;
 
@@ -22,11 +23,13 @@ public class ReservationService {
     private final ReservationRepository reservationRepository;
     private final ScreeningService screeningService;
     private final SeatService seatService;
+    private final UserService userService;
 
-    public ReservationService(ReservationRepository reservationRepository, ScreeningService screeningService, SeatService seatService) {
+    public ReservationService(ReservationRepository reservationRepository, ScreeningService screeningService, SeatService seatService, UserService userService) {
         this.reservationRepository = reservationRepository;
         this.screeningService = screeningService;
         this.seatService = seatService;
+        this.userService = userService;
     }
 
     public NewReservationOutputDto getNewReservationData(List<Integer> seats, Integer screeningId) {
@@ -52,6 +55,7 @@ public class ReservationService {
         reservation.setCreatedAt(LocalDateTime.now());
         reservation.setScreening(screening);
         reservation.setSeats(seats);
+        reservation.setUser(userService.getCurrentUserEntity());
 
         return reservationRepository.save(reservation);
     }

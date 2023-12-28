@@ -2,6 +2,7 @@ package com.cinema.cinema.reservation.models;
 
 import com.cinema.cinema.screening.models.Screening;
 import com.cinema.cinema.seat.models.Seat;
+import com.cinema.cinema.user.models.User;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -31,4 +32,8 @@ public class Reservation {
             inverseJoinColumns = @JoinColumn(name = "seat_id")
     )
     private List<Seat> seats;
+
+    @ManyToOne
+    @JoinColumn(nullable = false)
+    private User user;
 }

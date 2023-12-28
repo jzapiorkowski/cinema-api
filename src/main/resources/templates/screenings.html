@@ -25,7 +25,9 @@
             <th>Action</th>
         </tr>
         <tr th:each="screening : ${screenings}">
-            <td th:text="${screening.movie.title}"></td>
+            <td th:text="${screening.movie.title}">
+                <a th:href="'/movies/' + ${screening.movie.id}"></a>
+            </td>
             <td th:text="${screening.date}"></td>
             <td th:text="${screening.startHour}"></td>
             <td th:text="${screening.movie.minutesLength} + ' minutes'" ></td>
