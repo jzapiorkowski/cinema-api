@@ -64,4 +64,13 @@ public class ReservationController {
         return "reservations-list";
     }
 
+    @GetMapping("admin")
+    public String reservationsListAdmin(Model model) {
+        List<ReservationOutputDto> reservations = reservationService.getAllReservations();
+
+        model.addAttribute("reservations", reservations);
+
+        return "reservations-list";
+    }
+
 }

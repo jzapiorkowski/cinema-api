@@ -91,4 +91,19 @@ public class ReservationService {
 
         return reservationMapper.reservationsToReservationOutputDtos(reservations);
     }
+
+    public List<ReservationOutputDto> getAllUserReservations(Integer userId) {
+        List<Reservation> reservations = reservationRepository.findAllUsersReservations(userId);
+
+        return reservationMapper.reservationsToReservationOutputDtos(reservations);
+    }
+
+    public List<ReservationOutputDto> getAllReservations() {
+        if (!userService.doesUserHavePermission(new String[]{"ADMIN"})) {
+            throw new UnauthorizedUserException();
+        }
+
+        List<Reservation> reservations = reservationRepository.findAll();
+        return reservationMapper.reservationsToReservationOutputDtos(reservations);
+    }
 }
