@@ -3,6 +3,7 @@ package com.cinema.cinema.reservation.controllers;
 import com.cinema.cinema.reservation.dto.CreateReservationInputDto;
 import com.cinema.cinema.reservation.dto.NewReservationOutputDto;
 import com.cinema.cinema.reservation.dto.ReservationOutputDto;
+import com.cinema.cinema.reservation.dto.ReservationsStatisticsOutputDto;
 import com.cinema.cinema.reservation.models.Reservation;
 import com.cinema.cinema.reservation.services.ReservationService;
 import org.apache.coyote.BadRequestException;
@@ -78,5 +79,15 @@ public class ReservationController {
         reservationService.deleteReservation(reservationId);
 
         return "redirect:/reservations";
+    }
+
+    @GetMapping("/admin/stats")
+    public String getAdminStatistics(Model model) {
+        ReservationsStatisticsOutputDto reservationStats = reservationService.getReservationsStats();
+
+        model.addAttribute("statistics", reservationStats);
+        System.out.println(reservationStats);
+
+        return "reservations-statistics";
     }
 }

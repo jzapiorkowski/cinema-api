@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cinema App</title>
+</head>
+<body>
+    <h1>Reservations statistics</h1>
+
+    <table border="1">
+        <tr>
+            <th>Number of reservations</th>
+            <th>Number of reserved seats</th>
+            <th>Number of distinct movies</th>
+        </tr>
+        <tbody>
+            <tr>
+                <td th:text="${statistics.reservationsNumber}"></td>
+                <td th:text="${statistics.reservedSeats}"></td>
+                <td th:text="${statistics.numberOfMovies}"></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
