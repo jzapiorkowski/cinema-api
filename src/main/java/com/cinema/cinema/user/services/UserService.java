@@ -1,5 +1,6 @@
 package com.cinema.cinema.user.services;
 
+import com.cinema.cinema.roles.models.Role;
 import com.cinema.cinema.security.SecurityUtil;
 import com.cinema.cinema.user.dto.CreateUserDto;
 import com.cinema.cinema.user.exceptions.UserAlreadyExistsException;
@@ -9,6 +10,7 @@ import com.cinema.cinema.user.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -42,5 +44,19 @@ public class UserService {
 
         return userRepository.findByEmail(email)
                 .orElseThrow(() -> new UserDoesNotExistException(email));
+    }
+
+    public boolean doesUserHavePermission(String[] requiredRoles) {
+        User currentUser = getCurrentUserEntity();
+
+        List<String> userRoles = currentUser.getRoles().stream().map(Role::getName).toList();
+
+        for (String requiredRole : requiredRoles) {
+            if (userRoles.contains(requiredRole)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

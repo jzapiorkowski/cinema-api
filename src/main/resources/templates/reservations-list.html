@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cinema App</title>
+</head>
+<body>
+    <h1>Your reservations list</h1>
+    <a href="/">To homepage</a>
+
+    <table border="1">
+        <tr>
+            <th>Reservation Id</th>
+            <th>Created At</th>
+            <th>Date</th>
+            <th>Start Hour</th>
+            <th>Movie title</th>
+            <th>Action</th>
+        </tr>
+
+        <tr th:each="reservation : ${reservations}">
+            <td th:text="${reservation.id}"></td>
+            <td th:text="${reservation.createdAt}" ></td>
+            <td th:text="${reservation.screening.date}"></td>
+            <td th:text="${reservation.screening.startHour}"></td>
+            <td>
+                <a th:href="@{/movies/{id}(id=${reservation.screening.movie.id})}" th:text="${reservation.screening.movie.title}"></a>
+            </td>
+            <td>
+                <button>
+                    <a th:href="@{/reservations/{id}(id=${reservation.id})}">Go to reservation</a>
+                </button>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

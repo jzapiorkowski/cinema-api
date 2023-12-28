@@ -2,12 +2,15 @@ package com.cinema.cinema.reservation.controllers;
 
 import com.cinema.cinema.reservation.dto.CreateReservationInputDto;
 import com.cinema.cinema.reservation.dto.NewReservationOutputDto;
+import com.cinema.cinema.reservation.dto.ReservationOutputDto;
 import com.cinema.cinema.reservation.models.Reservation;
 import com.cinema.cinema.reservation.services.ReservationService;
 import org.apache.coyote.BadRequestException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/reservations")
@@ -45,11 +48,20 @@ public class ReservationController {
 
     @GetMapping("{id}")
     public String reservationDetails(@PathVariable Integer id, Model model) {
-        Reservation reservation = reservationService.getReservationById(id);
+        ReservationOutputDto reservation = reservationService.getReservationById(id);
 
         model.addAttribute("reservation", reservation);
 
         return "reservation-details";
+    }
+
+    @GetMapping
+    public String reservationsList(Model model) {
+        List<ReservationOutputDto> reservations = reservationService.getAllUserReservations();
+
+        model.addAttribute("reservations", reservations);
+
+        return "reservations-list";
     }
 
 }
