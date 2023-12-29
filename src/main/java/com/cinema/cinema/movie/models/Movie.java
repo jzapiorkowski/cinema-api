@@ -41,12 +41,10 @@ public class Movie {
             inverseJoinColumns = @JoinColumn(name = "actor_id")
     )
     private Set<Actor> actors;
+
+    @Column(name = "image_url")
+    private String imageUrl;
+
+    @Column(name = "trailer_url")
+    private String trailerUrl;
 }
-
-
-
-//    @Column
-//    private idk trailer
-
-//    @Column
-//    private idk imageGallery

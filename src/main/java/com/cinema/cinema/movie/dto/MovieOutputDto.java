@@ -15,4 +15,6 @@ public class MovieOutputDto {
     private LocalDate releaseDate;
     private Integer length;
     private List<MoviesActorOutputDto> actors;
+    private String imageUrl;
+    private String trailerUrl;
 }

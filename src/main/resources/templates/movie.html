@@ -31,6 +31,18 @@
                 <span th:text="${actor.name}"></span>
             </li>
         </ul>
+
+        <div th:if="${movie.imageUrl}">
+            <h4>Gallery</h4>
+            <img th:src="@{${movie.imageUrl}}"  alt="gallery image"/>
+        </div>
+
+        <div th:if="${movie.trailerUrl}">
+            <h4>Trailer</h4>
+            <video width="320" height="240" controls>
+                <source th:src="@{${movie.trailerUrl}}">
+            </video>
+        </div>
     </div>
 </body>
 </html>
