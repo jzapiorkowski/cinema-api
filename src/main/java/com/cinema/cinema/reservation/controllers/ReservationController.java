@@ -4,9 +4,15 @@ import com.cinema.cinema.reservation.dto.*;
 import com.cinema.cinema.reservation.models.Reservation;
 import com.cinema.cinema.reservation.services.ReservationService;
 import com.cinema.cinema.reservation.services.ReservationsStatisticsService;
+import jakarta.annotation.Nullable;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import org.apache.coyote.BadRequestException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,19 +29,20 @@ public class ReservationController {
     }
 
     @GetMapping("new")
-    public String newReservation(@RequestParam Integer screeningId, Model model ) {
+    public String newReservation(@RequestParam @NotNull Integer screeningId, Model model ) {
         model.addAttribute("screeningId", screeningId);
 
         return "new-reservation";
     }
 
     @PostMapping()
-    public String confirmReservation(CreateReservationInputDto createReservationInputDto) throws BadRequestException {
+    public String confirmReservation(@Valid CreateReservationInputDto createReservationInputDto) throws BadRequestException {
         Reservation reservation = reservationService.createNewReservation(createReservationInputDto);
 
         return "redirect:/reservations/" + reservation.getId();
     }
 
+    @Validated
     @GetMapping("summary")
     public String reservationSummary(@ModelAttribute("reservationData") CreateReservationInputDto reservationData, Model model) {
         NewReservationOutputDto newReservationInfo = reservationService.getNewReservationData(reservationData.getSeats(), reservationData.getScreening());
@@ -81,17 +88,17 @@ public class ReservationController {
         return "redirect:/reservations";
     }
 
+    @Validated
     @GetMapping("/admin/stats")
     public String getAdminStatistics(
             Model model,
-            @RequestParam(required = false) Integer month,
-            @RequestParam(required = false) Integer day
+            @RequestParam(required = false) @Nullable @Min(1) @Max(12) Integer month,
+            @RequestParam(required = false) @Nullable @Min(1) @Max(31) Integer day
     ) {
         ReservationsStatisticsQueryInputDto reservationsStatisticsQueryInputDto = new ReservationsStatisticsQueryInputDto(month, day);
         ReservationsStatisticsOutputDto reservationStats = reservationsStatisticsService.getReservationsStats(reservationsStatisticsQueryInputDto);
 
         model.addAttribute("statistics", reservationStats);
-        System.out.println(reservationStats);
 
         return "reservations-statistics";
     }

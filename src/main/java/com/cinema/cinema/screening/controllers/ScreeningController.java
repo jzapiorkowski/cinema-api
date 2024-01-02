@@ -2,6 +2,7 @@ package com.cinema.cinema.screening.controllers;
 
 import com.cinema.cinema.screening.dto.ScreeningOutputDto;
 import com.cinema.cinema.screening.services.ScreeningService;
+import jakarta.annotation.Nullable;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,7 +23,7 @@ public class ScreeningController {
     }
 
     @GetMapping
-    String getAllScreenings(@RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date, Model model) {
+    String getAllScreenings(@RequestParam(required = false) @Nullable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date, Model model) {
         List<ScreeningOutputDto> screenings;
         if (date == null) {
             screenings = screeningService.getAllScreenings();

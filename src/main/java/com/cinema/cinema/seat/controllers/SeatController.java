@@ -3,6 +3,8 @@ package com.cinema.cinema.seat.controllers;
 import com.cinema.cinema.reservation.dto.CreateReservationInputDto;
 import com.cinema.cinema.seat.dto.SeatOutputDto;
 import com.cinema.cinema.seat.services.SeatService;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +22,7 @@ public class SeatController {
     }
 
     @GetMapping("choose")
-    public String chooseSeatsForScreening(@RequestParam Integer screeningId, Model model) {
+    public String chooseSeatsForScreening(@RequestParam @NotNull Integer screeningId, Model model) {
         List<SeatOutputDto> availableSeats = seatService.getAvailableSeatsForScreening(screeningId);
 
         CreateReservationInputDto reservationData = new CreateReservationInputDto();
@@ -33,7 +35,7 @@ public class SeatController {
     }
 
     @PostMapping("choose")
-    public String goToReservationSummary(CreateReservationInputDto reservationData, RedirectAttributes redirectAttributes) {
+    public String goToReservationSummary(@Valid CreateReservationInputDto reservationData, RedirectAttributes redirectAttributes) {
          redirectAttributes.addFlashAttribute("reservationData", reservationData);
 
         return "redirect:/reservations/summary";
