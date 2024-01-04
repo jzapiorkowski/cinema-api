@@ -3,7 +3,7 @@ name: CD-REST
 on:
   push:
     branches:
-      - "master-ssr"
+      - "master-rest"
 
 jobs:
   release:
