@@ -6,10 +6,8 @@ import com.cinema.cinema.reservation.exceptions.UnauthorizedUserException;
 import com.cinema.cinema.reservation.mappers.ReservationMapper;
 import com.cinema.cinema.reservation.models.Reservation;
 import com.cinema.cinema.reservation.repository.ReservationRepository;
-import com.cinema.cinema.screening.dto.ScreeningOutputDto;
 import com.cinema.cinema.screening.models.Screening;
 import com.cinema.cinema.screening.services.ScreeningService;
-import com.cinema.cinema.seat.dto.SeatOutputDto;
 import com.cinema.cinema.seat.models.Seat;
 import com.cinema.cinema.seat.services.SeatService;
 import com.cinema.cinema.user.models.User;
@@ -19,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class ReservationService {
@@ -34,17 +33,6 @@ public class ReservationService {
         this.seatService = seatService;
         this.userService = userService;
         this.reservationMapper = reservationMapper;
-    }
-
-    public NewReservationOutputDto getNewReservationData(List<Integer> seats, Integer screeningId) {
-        List<SeatOutputDto> chosenSeats = seatService.getSeatsByIds(seats);
-        ScreeningOutputDto screening = screeningService.getScreeningById(screeningId);
-
-        NewReservationOutputDto newReservation = new NewReservationOutputDto();
-        newReservation.setSeats(chosenSeats);
-        newReservation.setScreening(screening);
-
-        return newReservation;
     }
 
     public ReservationOutputDto createNewReservation(CreateReservationInputDto createReservationInputDto) throws BadRequestException {
@@ -64,6 +52,37 @@ public class ReservationService {
         Reservation createdReservation = reservationRepository.save(reservation);
 
         return reservationMapper.reservationToReservationOutputDto(createdReservation);
+    }
+
+    public ReservationOutputDto updateReservation(
+            Integer reservationId,
+            UpdateReservationInputDto updateReservationInputDto
+    ) throws BadRequestException {
+        Reservation reservation = reservationRepository.findById(reservationId)
+                .orElseThrow(() -> new ReservationNotFoundException(reservationId));
+
+        if (!Objects.equals(userService.getCurrentUserEntity().getId(), reservation.getUser().getId())
+                || !userService.doesUserHavePermission(new String[]{"ADMIN"})) {
+            throw new UnauthorizedUserException();
+        }
+
+        if (updateReservationInputDto.getScreeningId() != null) {
+            Screening screening = screeningService.getScreeningEntityById(updateReservationInputDto.getScreeningId());
+            reservation.setScreening(screening);
+        }
+
+        if (updateReservationInputDto.getSeats() != null) {
+            if (!seatService.checkIfSeatsAreAvailable(reservation.getScreening().getId(), updateReservationInputDto.getSeats())) {
+                throw new BadRequestException();
+            }
+            List<Seat> newSeats = seatService.getSeatEntitiesByIds(updateReservationInputDto.getSeats());
+            reservation.getSeats().clear();
+            reservation.getSeats().addAll(newSeats);
+        }
+
+        Reservation updatedReservation = reservationRepository.save(reservation);
+
+        return reservationMapper.reservationToReservationOutputDto(updatedReservation);
     }
 
     public ReservationOutputDto getReservationById(Integer reservationId) {

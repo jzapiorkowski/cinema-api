@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -31,7 +32,7 @@ public class Reservation {
             joinColumns = @JoinColumn(name = "reservation_id"),
             inverseJoinColumns = @JoinColumn(name = "seat_id")
     )
-    private List<Seat> seats;
+    private List<Seat> seats = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(nullable = false)

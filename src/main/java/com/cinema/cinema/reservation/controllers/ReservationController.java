@@ -26,12 +26,24 @@ public class ReservationController {
         this.reservationsStatisticsService = reservationsStatisticsService;
     }
 
+    @Validated
     @PostMapping
     public ResponseEntity<ReservationOutputDto> createNewReservation(
             @Valid @RequestBody() CreateReservationInputDto createReservationInputDto
     ) throws BadRequestException {
         ReservationOutputDto reservation = reservationService.createNewReservation(createReservationInputDto);
         return new ResponseEntity<>(reservation, HttpStatus.CREATED);
+    }
+
+    @Validated
+    @PutMapping("{id}")
+    public ResponseEntity<ReservationOutputDto> updateReservation(
+            @Valid @RequestBody UpdateReservationInputDto updateReservationInputDto,
+            @PathVariable Integer id
+    ) throws BadRequestException {
+        ReservationOutputDto reservation = reservationService.updateReservation(id, updateReservationInputDto);
+
+        return new ResponseEntity<>(reservation, HttpStatus.OK);
     }
 
     @GetMapping("{id}")
