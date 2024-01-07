@@ -1,18 +1,15 @@
 package com.cinema.cinema.seat.controllers;
 
-import com.cinema.cinema.reservation.dto.CreateReservationInputDto;
 import com.cinema.cinema.seat.dto.SeatOutputDto;
 import com.cinema.cinema.seat.services.SeatService;
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping("/seats")
 public class SeatController {
     private final SeatService seatService;
@@ -21,23 +18,10 @@ public class SeatController {
         this.seatService = seatService;
     }
 
-    @GetMapping("choose")
-    public String chooseSeatsForScreening(@RequestParam @NotNull Integer screeningId, Model model) {
+    @GetMapping("available")
+    public ResponseEntity<List<SeatOutputDto>> chooseSeatsForScreening(@RequestParam @NotNull Integer screeningId) {
         List<SeatOutputDto> availableSeats = seatService.getAvailableSeatsForScreening(screeningId);
 
-        CreateReservationInputDto reservationData = new CreateReservationInputDto();
-        reservationData.setScreening(screeningId);
-
-        model.addAttribute("availableSeats", availableSeats);
-        model.addAttribute("reservationData", reservationData);
-
-        return "choose-seats";
-    }
-
-    @PostMapping("choose")
-    public String goToReservationSummary(@Valid CreateReservationInputDto reservationData, RedirectAttributes redirectAttributes) {
-         redirectAttributes.addFlashAttribute("reservationData", reservationData);
-
-        return "redirect:/reservations/summary";
+        return new ResponseEntity<>(availableSeats, HttpStatus.OK);
     }
 }

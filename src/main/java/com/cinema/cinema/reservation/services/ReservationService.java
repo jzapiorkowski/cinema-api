@@ -47,7 +47,7 @@ public class ReservationService {
         return newReservation;
     }
 
-    public Reservation createNewReservation(CreateReservationInputDto createReservationInputDto) throws BadRequestException {
+    public ReservationOutputDto createNewReservation(CreateReservationInputDto createReservationInputDto) throws BadRequestException {
         if (!seatService.checkIfSeatsAreAvailable(createReservationInputDto.getScreening(), createReservationInputDto.getSeats())) {
             throw new BadRequestException();
         }
@@ -61,7 +61,9 @@ public class ReservationService {
         reservation.setSeats(seats);
         reservation.setUser(userService.getCurrentUserEntity());
 
-        return reservationRepository.save(reservation);
+        Reservation createdReservation = reservationRepository.save(reservation);
+
+        return reservationMapper.reservationToReservationOutputDto(createdReservation);
     }
 
     public ReservationOutputDto getReservationById(Integer reservationId) {

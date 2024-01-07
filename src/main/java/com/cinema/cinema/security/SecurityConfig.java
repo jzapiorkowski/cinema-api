@@ -3,6 +3,7 @@ package com.cinema.cinema.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -24,10 +25,12 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+                .csrf(AbstractHttpConfigurer::disable)
                 .cors(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
-                    .requestMatchers("/", "/login", "/users/register").permitAll()
-                    .anyRequest().authenticated())
+                        .requestMatchers("/", "/login", "/reservations").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/reservations").permitAll() // Allow POST to /reservations
+                        .anyRequest().authenticated())
                 .userDetailsService(userDetailsService)
                 .httpBasic(Customizer.withDefaults())
                 .formLogin(Customizer.withDefaults());
