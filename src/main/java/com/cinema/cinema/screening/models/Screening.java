@@ -29,6 +29,6 @@ public class Screening {
     @ManyToOne
     private Movie movie;
 
-    @OneToMany(mappedBy = "screening")
+    @OneToMany(mappedBy = "screening", cascade = CascadeType.ALL)
     private List<Reservation> reservations;
 }

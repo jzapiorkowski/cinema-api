@@ -2,10 +2,12 @@ package com.cinema.cinema.movie.models;
 
 import com.cinema.cinema.actor.models.Actor;
 import com.cinema.cinema.movie.enums.MovieGenre;
+import com.cinema.cinema.screening.models.Screening;
 import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -47,4 +49,7 @@ public class Movie {
 
     @Column(name = "trailer_url")
     private String trailerUrl;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Screening> screenings;
 }
