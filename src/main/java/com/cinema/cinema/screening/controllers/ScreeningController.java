@@ -3,6 +3,7 @@ package com.cinema.cinema.screening.controllers;
 import com.cinema.cinema.screening.dto.ScreeningOutputDto;
 import com.cinema.cinema.screening.services.ScreeningService;
 import jakarta.annotation.Nullable;
+import org.springframework.data.domain.Pageable;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,14 +26,15 @@ public class ScreeningController {
 
     @GetMapping
     ResponseEntity<List<ScreeningOutputDto>> getAllScreenings(
-            @RequestParam(required = false) @Nullable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date
+            @RequestParam(required = false) @Nullable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
+            @RequestParam(required = false) String movieTitle,
+            @RequestParam(required = false) String genre,
+            @RequestParam(required = false) Integer numberOfActors,
+            @RequestParam(required = false) boolean hasTrailer,
+            Pageable pageable
     ) {
-        List<ScreeningOutputDto> screenings;
-        if (date == null) {
-            screenings = screeningService.getAllScreenings();
-        } else {
-            screenings = screeningService.getScreeningsByDate(date);
-        }
+       List<ScreeningOutputDto> screenings =
+               screeningService.getFilteredScreenings(date, movieTitle, genre, numberOfActors, hasTrailer, pageable);
 
         return new ResponseEntity<>(screenings, HttpStatus.OK);
     }
