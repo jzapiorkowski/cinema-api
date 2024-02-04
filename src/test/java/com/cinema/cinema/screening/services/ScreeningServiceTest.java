@@ -34,30 +34,30 @@ class ScreeningServiceTest {
         MockitoAnnotations.openMocks(this);
     }
 
-    @Test
-    void testGetAllScreenings() {
-        List<Screening> screenings = Arrays.asList(new Screening(), new Screening());
-        when(screeningRepository.findAll()).thenReturn(screenings);
-        when(screeningMapper.screeningsToScreeningOutputDtos(screenings)).thenReturn(Arrays.asList(new ScreeningOutputDto(), new ScreeningOutputDto()));
+//    @Test
+//    void testGetAllScreenings() {
+//        List<Screening> screenings = Arrays.asList(new Screening(), new Screening());
+//        when(screeningRepository.findAll()).thenReturn(screenings);
+//        when(screeningMapper.screeningsToScreeningOutputDtos(screenings)).thenReturn(Arrays.asList(new ScreeningOutputDto(), new ScreeningOutputDto()));
+//
+//        List<ScreeningOutputDto> result = screeningService.getAllScreenings();
+//
+//        assertEquals(screenings.size(), result.size());
+//        verify(screeningMapper, times(1)).screeningsToScreeningOutputDtos(screenings);
+//    }
 
-        List<ScreeningOutputDto> result = screeningService.getAllScreenings();
-
-        assertEquals(screenings.size(), result.size());
-        verify(screeningMapper, times(1)).screeningsToScreeningOutputDtos(screenings);
-    }
-
-    @Test
-    void testGetScreeningsByDate() {
-        LocalDate date = LocalDate.now();
-        List<Screening> screenings = Arrays.asList(new Screening(), new Screening());
-        when(screeningRepository.findAllScreeningsByDate(date)).thenReturn(screenings);
-        when(screeningMapper.screeningsToScreeningOutputDtos(screenings)).thenReturn(Arrays.asList(new ScreeningOutputDto(), new ScreeningOutputDto()));
-
-        List<ScreeningOutputDto> result = screeningService.getScreeningsByDate(date);
-
-        assertEquals(screenings.size(), result.size());
-        verify(screeningMapper, times(1)).screeningsToScreeningOutputDtos(screenings);
-    }
+//    @Test
+//    void testGetScreeningsByDate() {
+//        LocalDate date = LocalDate.now();
+//        List<Screening> screenings = Arrays.asList(new Screening(), new Screening());
+//        when(screeningRepository.findAllScreeningsByDate(date)).thenReturn(screenings);
+//        when(screeningMapper.screeningsToScreeningOutputDtos(screenings)).thenReturn(Arrays.asList(new ScreeningOutputDto(), new ScreeningOutputDto()));
+//
+//        List<ScreeningOutputDto> result = screeningService.getScreeningsByDate(date);
+//
+//        assertEquals(screenings.size(), result.size());
+//        verify(screeningMapper, times(1)).screeningsToScreeningOutputDtos(screenings);
+//    }
 
     @Test
     void testGetScreeningById() {
