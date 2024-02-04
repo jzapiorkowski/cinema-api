@@ -1,6 +1,7 @@
 package com.cinema.cinema.reservation.services;
 
 import com.cinema.cinema.movie.models.Movie;
+import com.cinema.cinema.reservation.dto.ReservationsPerUserStatisticsOutputDto;
 import com.cinema.cinema.reservation.dto.ReservationsStatisticsOutputDto;
 import com.cinema.cinema.reservation.dto.ReservationsStatisticsQueryInputDto;
 import com.cinema.cinema.reservation.exceptions.UnauthorizedUserException;
@@ -100,5 +101,9 @@ public ReservationsStatisticsOutputDto getReservationsStats(
         }
 
         return uniqueMovies.size();
+    }
+
+    public List<ReservationsPerUserStatisticsOutputDto> getReservationsPerUser() {
+        return reservationRepository.getReservationsPerUserStatistics();
     }
 }

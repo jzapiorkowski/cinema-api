@@ -29,7 +29,7 @@ public class ReservationController {
     @Validated
     @PostMapping
     public ResponseEntity<ReservationOutputDto> createNewReservation(
-            @Valid @RequestBody() CreateReservationInputDto createReservationInputDto
+             @RequestBody() CreateReservationInputDto createReservationInputDto
     ) throws BadRequestException {
         ReservationOutputDto reservation = reservationService.createNewReservation(createReservationInputDto);
         return new ResponseEntity<>(reservation, HttpStatus.CREATED);
@@ -73,8 +73,8 @@ public class ReservationController {
     }
 
     @Validated
-    @GetMapping("/admin/stats")
-    public ResponseEntity<ReservationsStatisticsOutputDto> getAdminStatistics(
+    @GetMapping("/stats/by-time")
+    public ResponseEntity<ReservationsStatisticsOutputDto> getStatisticsByTime(
             @RequestParam(required = false) @Nullable @Min(1) @Max(12) Integer month,
             @RequestParam(required = false) @Nullable @Min(1) @Max(31) Integer day
     ) {
@@ -82,5 +82,13 @@ public class ReservationController {
         ReservationsStatisticsOutputDto reservationStats = reservationsStatisticsService.getReservationsStats(reservationsStatisticsQueryInputDto);
 
         return new ResponseEntity<>(reservationStats, HttpStatus.OK);
+    }
+
+    @GetMapping("/stats/per-user")
+    public ResponseEntity<List<ReservationsPerUserStatisticsOutputDto>> getReservationsPerUser() {
+        List<ReservationsPerUserStatisticsOutputDto> reservationsPerUser =
+                reservationsStatisticsService.getReservationsPerUser();
+
+        return new ResponseEntity<>(reservationsPerUser, HttpStatus.OK);
     }
 }
